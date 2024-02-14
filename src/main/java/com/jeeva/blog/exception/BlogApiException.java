@@ -3,6 +3,9 @@ package com.jeeva.blog.exception;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class BlogApiException extends RuntimeException{
 
     @Getter
@@ -24,4 +27,7 @@ public class BlogApiException extends RuntimeException{
     public String getMessage() {
         return message;
     }
+
+
+    List<Integer> j = new ArrayList<>();
 }

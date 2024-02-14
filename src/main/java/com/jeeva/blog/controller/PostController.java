@@ -2,6 +2,7 @@ package com.jeeva.blog.controller;
 
 import com.jeeva.blog.payload.PostDto;
 import com.jeeva.blog.payload.PostResponse;
+import com.jeeva.blog.response.GenericResponse;
 import com.jeeva.blog.service.PostService;
 import com.jeeva.blog.utils.AppConstants;
 import jakarta.validation.Valid;
@@ -44,6 +45,11 @@ public class PostController {
     @GetMapping("/{id}")
     public ResponseEntity<PostDto> getPostById(@PathVariable(name = "id") long id){
         return ResponseEntity.ok(postService.getPostById(id));
+    }
+
+    @GetMapping("/category/{categoryId}")
+    public ResponseEntity<List<PostDto>> getPostByCategory(@PathVariable(name = "categoryId") long categoryId){
+        return new ResponseEntity<>(postService.getPostByCategory(categoryId), HttpStatus.OK);
     }
 
     // update post by id rest api

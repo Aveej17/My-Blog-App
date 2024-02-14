@@ -2,6 +2,7 @@ package com.jeeva.blog.controller;
 
 import com.jeeva.blog.payload.CategoryDto;
 import com.jeeva.blog.service.CategoryService;
+import com.jeeva.blog.utils.AppConstants;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,12 @@ public class CategoryController {
 
     //Build Get Category REST API
     @GetMapping("/{id}")
-    public ResponseEntity<CategoryDto> getCategory(@PathVariable long id){
+    public ResponseEntity<CategoryDto> getCategory(@PathVariable long id,
+                                                   @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NO, required = false) int pageNo,
+                                                   @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+                                                   @RequestParam(value= "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false) String sortBy,
+                                                   @RequestParam(value = "sortDir", defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false) String sortDir
+                                                   ){
         CategoryDto CategoryDto = categoryService.getCategory(id);
         return new ResponseEntity<>(CategoryDto, HttpStatus.OK);
     }
@@ -48,5 +54,12 @@ public class CategoryController {
     public ResponseEntity<CategoryDto> updateCategory(@PathVariable long id, @RequestBody CategoryDto categoryDto){
         CategoryDto CategoryDto = categoryService.updateCategory(categoryDto, id);
         return new ResponseEntity<>(CategoryDto, HttpStatus.OK);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deleteCategory(@PathVariable long id){
+        categoryService.deleteCategoryById(id);
+        return new ResponseEntity<>("Category Deleted Successfully", HttpStatus.OK);
     }
 }

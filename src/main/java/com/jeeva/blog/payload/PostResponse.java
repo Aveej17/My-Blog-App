@@ -11,6 +11,7 @@ import java.util.List;
 public class PostResponse {
 
     private List<PostDto> content;
+
     private int pageNo;
 
     private int pageSize;
